@@ -1,4 +1,4 @@
-import { Clock, Moon, Sun } from 'lucide-react'
+import { Clock, Lock, Mail, Moon, Sun } from 'lucide-react'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form'
 import { Button } from '../ui/button'
 import { z } from 'zod'
@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '../ui/input'
 import { Link } from 'react-router-dom'
+import { Separator } from '@radix-ui/react-separator'
+import ThemeToggle from '../theme/theme-toggle'
 
 const passRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/;
 
@@ -43,12 +45,9 @@ const LoginForm = () => {
           <div className="flex items-center justify-between w-full">
             <Link to={'/'} className='flex items-center gap-2'>
               <Clock className='h-6 w-6 text-primary' />
-              <span className='text-xl font-bold'>Pomodoro Flow</span>
+              <span className='text-xl font-bold'>PomodoroFlow</span>
             </Link>
-            <div className="flex">
-              <Sun />
-              {/* <Moon /> */}
-            </div>
+            <ThemeToggle />
           </div>
           <h1 className='text-2xl font-bold'>Welcome back</h1>
           <p className='text-sm text-muted-foreground'>Enter your credentials to access your account</p>
@@ -61,11 +60,14 @@ const LoginForm = () => {
               control={form.control}
               name='email'
               render={({ field }) => (
-                <FormItem>
+                <FormItem className='space-y-2'>
                   <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder='email@example.com' {...field}/>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground"/>
+                    <FormControl>
+                    <Input placeholder='name@example.com' {...field} className='pl-10'/>
                   </FormControl>
+                  </div>
                 </FormItem>
               )}
             />
@@ -74,23 +76,30 @@ const LoginForm = () => {
               control={form.control}
               name='pass'
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <span>Forgot password?</span>
-                  <FormControl>
-                    <Input type='password' placeholder='Enter your password' {...field}/>
-                  </FormControl>
+                <FormItem className='space-y-2'>
+                  <div className="flex items-center justify-between">
+                    <FormLabel>Password</FormLabel>
+                    <Link to={'/forgot-password'} className='text-xs text-primary hover:underline'>Forgot password</Link>
+                  </div>
+                  <div className="relative">
+                    <Lock className='absolute left-3 top-3 h-4 w-4 text-muted-foreground'/>
+                    <FormControl>
+                      <Input type='password' placeholder='••••••••' className='pl-10' {...field}/>
+                    </FormControl>
+                  </div>
                 </FormItem>
               )}
             />
 
-            <Button type='submit'>Sign in</Button>
+            <Button type='submit' className='w-full'>Sign in</Button>
           </form>
         </Form>
 
+        <Separator />
+
         {/* Google btn + Register link */}
-        <Button>
-          <svg className="" viewBox="0 0 24 24">
+        <Button variant={'outline'} className='w-full'>
+          <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
             <path
               d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
               fill="#4285F4"
@@ -111,7 +120,13 @@ const LoginForm = () => {
           </svg>
           Sign in with Google
         </Button>
-        <p>Don't have an account? <span>Sign up</span></p>
+
+        <div className="text-center text-sm">
+          Don&apos;t have an account?{" "}
+          <Link to="/register" className="text-primary hover:underline">
+            Sign up
+          </Link>
+        </div>
       </div>
     </div>
   )
