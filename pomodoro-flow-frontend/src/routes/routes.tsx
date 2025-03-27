@@ -15,5 +15,9 @@ export const router = createBrowserRouter([
     {
         path: "/register",
         element: <RegisterPage />
+    },
+    {
+        path: "/forgot-password",
+        element: <LandingPage /> // for now...
     }
 ])
