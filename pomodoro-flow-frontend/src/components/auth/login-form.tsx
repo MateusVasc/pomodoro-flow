@@ -1,22 +1,22 @@
 import { Clock, Lock, Mail } from 'lucide-react'
-import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Button } from '../ui/button'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '../ui/input'
 import { Link } from 'react-router-dom'
-import { Separator } from '@radix-ui/react-separator'
 import ThemeToggle from '../theme/theme-toggle'
+import { Separator } from '../ui/separator'
 
 const passRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/;
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   pass: z.string().min(8, {
-    message: "Password must have at least 2 characters"})
-    .max(15, {
-      message: "Password can't have more then 15 characters"
+    message: "Password must have at least 8 characters"})
+    .max(30, {
+      message: "Password can't have more then 30 characters"
     })
     .regex(passRegex, {
       message: "Password must have at least 1 uppercase letter, 1 number and 1 special character"
@@ -30,12 +30,11 @@ const LoginForm = () => {
       email: "",
       pass: ""
     },
-  })
+  });
   
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // it seams I need to do something with the form values here... I don't know what tho...
     console.log(values)
-  }
+  };
 
   return (
     <div className='flex min-h-screen flex-col items-center justify-center bg-muted/40 p-4'>
@@ -68,6 +67,7 @@ const LoginForm = () => {
                     <Input placeholder='name@example.com' {...field} className='pl-10'/>
                   </FormControl>
                   </div>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -87,6 +87,7 @@ const LoginForm = () => {
                       <Input type='password' placeholder='••••••••' className='pl-10' {...field}/>
                     </FormControl>
                   </div>
+                  <FormMessage />
                 </FormItem>
               )}
             />
